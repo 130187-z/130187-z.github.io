@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品状态查询</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .status-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #e0e0e0;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .status-btn.active {
+            background-color: #2196F3;
+            color: white;
+        }
+        .status-btn:hover {
+            opacity: 0.9;
+        }
+        /* 卡片容器样式 */
+        .result-container {
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* 提示文本样式 */
+        .tip-text {
+            color: #555;
+            font-size: 16px;
+            text-align: center;
+        }
+        /* 卡片样式 */
+        .status-card {
+            width: 100%;
+            padding: 25px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #2196F3;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+        .card-content {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>商品状态查询</h1>
+        <div class="btn-group">
+            <button class="status-btn active" data-status="all">全部状态</button>
+            <button class="status-btn" data-status="pending">岛内已到货</button>
+            <button class="status-btn" data-status="shipped">已发国际</button>
+            <button class="status-btn" data-status="received">已到国内</button>
+            <button class="status-btn" data-status="returning">可排发</button>
+        </div>
+        <!-- 替换为卡片容器 -->
+        <div class="result-container" id="result">
+            <p class="tip-text">请点击上方按钮查询对应商品状态</p >
+        </div>
+    </div>
+    <script>
+        // 模拟商品数据
+        const productData = {
+            all: {
+                title: "全部商品状态汇总（截止至1.16日）",
+                content: "已发国际 6 件、可排发 1 件 | 岛内已到货、已到国内 目前暂无"
+            },
+            pending: {
+                title: "岛内已到货",
+                content: "目前暂无（截止至1.16日）"
+            },
+            shipped: {
+                title: "已发国际",
+                content: "UFO官网下单现货、幕间通贩、烫金Vol.4、木质杯垫、AGF/队士展现货、圣诞节现货"
+            },
+            received: {
+                title: "已到国内",
+                content: "目前暂无（截止至1.16日）"
+            },
+            returning: {
+                title: "可排发",
+                content: "拍卖制品"
+            }
+        };
+        // 获取按钮和结果容器
+        const btns = document.querySelectorAll('.status-btn');
+        const resultContainer = document.getElementById('result');
+        // 为按钮添加点击事件
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 移除所有按钮的active类
+                btns.forEach(b => b.classList.remove('active'));
+                // 给当前点击的按钮添加active类
+                btn.classList.add('active');
+                // 获取当前按钮的状态值
+                const status = btn.dataset.status;
+                // 生成卡片HTML
+                const cardHtml = `
+                    <div class="status-card">
+                        <div class="card-title">${productData[status].title}</div>
+                        <div class="card-content">${productData[status].content}</div>
+                    </div>
+                `;
+                // 插入到结果容器
+                resultContainer.innerHTML = cardHtml;
+            });
+        });
+    </script>
+</body>
+</html>
